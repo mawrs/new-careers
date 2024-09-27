@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  reactStrictMode: true,
+  env: {
+    PERPLEXITY_API_KEY: process.env.PERPLEXITY_API_KEY,
+  },
+}
 
 export default nextConfig;
