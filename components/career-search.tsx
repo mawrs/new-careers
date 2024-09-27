@@ -110,6 +110,12 @@ type SearchAction =
 //   }
 // }
 
+type User = {
+  name: string;
+  avatar: string;
+  // Add any other properties that your user object might have
+};
+
 // Add this new component for the skeleton loader
 const CareerCardSkeleton = () => (
   <Card className="bg-white shadow-md relative">
@@ -176,7 +182,7 @@ export function CareerSearchComponent() {
   const [jobCompetition, setJobCompetition] = useState(['Low', 'Medium', 'High'])
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<User | null>(null);
   const [favorites, setFavorites] = useState<number[]>([]);
   const [poppingStars, setPoppingStars] = useState<number[]>([]);
   const [feedbackOpen, setFeedbackOpen] = useState(false)
@@ -448,12 +454,16 @@ export function CareerSearchComponent() {
     setIsSubmitted(false);
   };
 
-  // const handleGoogleLogin = () => {
-  //   // In a real application, this would initiate the Google OAuth flow
-  //   // For this example, we'll simulate a successful login
-  //   setIsLoggedIn(true)
-  //   setUser({ name: 'John Doe', email: 'john.doe@example.com', avatar: 'https://github.com/shadcn.png' })
-  // }
+  const handleGoogleLogin = (response: any) => {
+    // Extract user info from the Google response
+    const userInfo: User = {
+      name: response.name, // adjust these fields based on the actual Google response
+      avatar: response.picture,
+      // ... other fields
+    };
+    setIsLoggedIn(true);
+    setUser(userInfo);
+  };
 
   const handleLogout = () => {
     setIsLoggedIn(false)
@@ -505,13 +515,13 @@ export function CareerSearchComponent() {
               NewCareers
             </button>
           </div>
-          {isLoggedIn ? (
-            <div className="flex items-center gap-4">
-              <Avatar>
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <Button variant="outline" className="text-black" onClick={handleLogout}>Logout</Button>
+          {isLoggedIn && user ? (
+          <div className="flex items-center gap-4">
+            <Avatar>
+              <AvatarImage src={user.avatar} alt={user.name} />
+              <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <Button variant="outline" className="text-black" onClick={handleLogout}>Logout</Button>
             </div>
           ) : (
             <GoogleOAuthProvider clientId="681787884456-avl01o9cpe4rqqq9r476j7v4044ot846.apps.googleusercontent.com">
@@ -525,7 +535,7 @@ export function CareerSearchComponent() {
               />
             </GoogleOAuthProvider>
           )}
-        </div>
+          </div>
       </nav>
 
       <header className="py-8 sm:py-12 relative">
