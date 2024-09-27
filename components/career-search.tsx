@@ -136,8 +136,12 @@ type SurveyQuestion = {
   options: string[];
 };
 
+type MajorCareerSuggestions = {
+  [key: string]: { major: string; career: string }[];
+};
+
 // Add this data structure for majors and careers
-const majorCareerSuggestions = {
+const majorCareerSuggestions: MajorCareerSuggestions = {
   "Building cool stuff, some with AI": [
     { major: "Computer Science", career: "AI Engineer" },
     { major: "Robotics Engineering", career: "Robotics Developer" },
@@ -229,7 +233,11 @@ export function CareerSearchComponent() {
       setSurveyStep(surveyStep + 1);
     } else {
       // Survey completed, show suggestions based on the first answer
-      setSuggestions(majorCareerSuggestions[newAnswers[0]]);
+      if (newAnswers[0] && newAnswers[0] in majorCareerSuggestions) {
+        setSuggestions(majorCareerSuggestions[newAnswers[0] as keyof MajorCareerSuggestions]);
+      } else {
+        setSuggestions([]); // or some default value
+      }
     }
   };
 
