@@ -84,6 +84,17 @@ const majors = [
   "Zoology"
 ];
 
+type Career = {
+  id: number;
+  title: string;
+  salaryRange: string;
+  growth: string;
+  scarcity: string;
+  education: string;
+  competition: string;
+  description: string;
+};
+
 type SearchAction = 
   | { type: 'SET_RESULTS', payload: Career[] }
   | { type: 'CLEAR_RESULTS' };
@@ -378,16 +389,6 @@ export function CareerSearchComponent() {
     }
   }, [searchInput, currentPage]);
 
-  type Career = {
-    id: number;
-    title: string;
-    salaryRange: string;
-    growth: string;
-    scarcity: string;
-    education: string;
-    competition: string;
-    description: string;
-  };
 
   const toggleFavorite = useCallback((id: number) => {
     setFavorites(prev => 
