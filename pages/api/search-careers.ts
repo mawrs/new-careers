@@ -90,9 +90,15 @@ export default async function handler(
         page,
         pageSize
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Detailed error in API route:', error);
-      res.status(500).json({ error: 'Failed to fetch career data', details: error.message });
+      
+      let errorMessage = 'Failed to fetch career data';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
+      res.status(500).json({ error: 'Failed to fetch career data', details: errorMessage });
     }
   } else {
     res.setHeader('Allow', ['POST']);
