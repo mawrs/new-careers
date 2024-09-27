@@ -11,16 +11,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
-import { Search, GraduationCap, TrendingUp, Briefcase, DollarSign, Users, MessageSquare, Star, ThumbsUp, ThumbsDown, X, CheckCircle, Loader2, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react'
+import { GraduationCap, TrendingUp, Briefcase, DollarSign, Users, Star, ThumbsUp, ThumbsDown, X, CheckCircle, Loader2, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { Skeleton } from "@/components/ui/skeleton"
 
-const jobGrowthOptions = [
-  { value: 'Low', label: 'Low (0-5%)' },
-  { value: 'Medium', label: 'Medium (6-15%)' },
-  { value: 'High', label: 'High (16%+)' },
-]
 
 const majors = [
   "Accounting", "Actuarial Science", "Advertising Major", "Aerospace Engineering",
@@ -93,16 +88,16 @@ type SearchAction =
   | { type: 'SET_RESULTS', payload: Career[] }
   | { type: 'CLEAR_RESULTS' };
 
-function searchReducer(state: Career[], action: SearchAction): Career[] {
-  switch (action.type) {
-    case 'SET_RESULTS':
-      return action.payload;
-    case 'CLEAR_RESULTS':
-      return [];
-    default:
-      return state;
-  }
-}
+// function searchReducer(state: Career[], action: SearchAction): Career[] {
+//   switch (action.type) {
+//     case 'SET_RESULTS':
+//       return action.payload;
+//     case 'CLEAR_RESULTS':
+//       return [];
+//     default:
+//       return state;
+//   }
+// }
 
 // Add this new component for the skeleton loader
 const CareerCardSkeleton = () => (

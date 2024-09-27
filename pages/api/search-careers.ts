@@ -67,7 +67,7 @@ export default async function handler(
         throw new Error("Could not find JSON array in the response");
       }
 
-      let careers = JSON.parse(jsonMatch[0]);
+      const careers = JSON.parse(jsonMatch[0]);
 
       if (!Array.isArray(careers)) {
         throw new Error("Invalid careers data: not an array");
