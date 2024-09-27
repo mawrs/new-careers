@@ -296,7 +296,7 @@ export function CareerSearchComponent() {
   }, [updateAppliedFilters]);
 
   const removeFilter = useCallback((filter: string) => {
-    const [filterType, value] = filter.split(': ');
+    const [filterType] = filter.split(': ');
     switch (filterType) {
       case 'Education':
         setEducationLevel(['Certificate', 'Bachelor\'s', 'Master\'s', 'Doctorate']);
@@ -439,12 +439,12 @@ export function CareerSearchComponent() {
     setIsSubmitted(false);
   };
 
-  const handleGoogleLogin = () => {
-    // In a real application, this would initiate the Google OAuth flow
-    // For this example, we'll simulate a successful login
-    setIsLoggedIn(true)
-    setUser({ name: 'John Doe', email: 'john.doe@example.com', avatar: 'https://github.com/shadcn.png' })
-  }
+  // const handleGoogleLogin = () => {
+  //   // In a real application, this would initiate the Google OAuth flow
+  //   // For this example, we'll simulate a successful login
+  //   setIsLoggedIn(true)
+  //   setUser({ name: 'John Doe', email: 'john.doe@example.com', avatar: 'https://github.com/shadcn.png' })
+  // }
 
   const handleLogout = () => {
     setIsLoggedIn(false)
