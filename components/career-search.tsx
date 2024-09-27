@@ -170,6 +170,10 @@ const majorCareerSuggestions: MajorCareerSuggestions = {
     { major: "Actuarial Science", career: "Actuary" },
   ],
 };
+const handlePageChange = useCallback((newPage: number) => {
+  setCurrentPage(newPage);
+  handleSearch();  // Assuming you want to trigger a new search when the page changes
+}, [handleSearch]);
 
 export function CareerSearchComponent() {
   const [searchResults, setSearchResults] = useState<Career[]>([]);
