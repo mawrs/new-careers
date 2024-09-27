@@ -170,10 +170,6 @@ const majorCareerSuggestions: MajorCareerSuggestions = {
     { major: "Actuarial Science", career: "Actuary" },
   ],
 };
-const handlePageChange = useCallback((newPage: number) => {
-  setCurrentPage(newPage);
-  handleSearch();  // Assuming you want to trigger a new search when the page changes
-}, [handleSearch]);
 
 export function CareerSearchComponent() {
   const [searchResults, setSearchResults] = useState<Career[]>([]);
@@ -205,6 +201,14 @@ export function CareerSearchComponent() {
   const [surveyAnswers, setSurveyAnswers] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<{ major: string; career: string }[]>([]);
   const [showResults, setShowResults] = useState(false);
+
+  const handlePageChange = useCallback((newPage: number) => {
+    setCurrentPage(prevPage => {
+      // Use prevPage if needed
+      handleSearch(); // Call handleSearch after state update
+      return newPage;
+    });
+  }, [/* dependencies other than handleSearch */]);
 
   // Add new state variables for each dropdown's visual state
   const [educationValue, setEducationValue] = useState<string>('all');
