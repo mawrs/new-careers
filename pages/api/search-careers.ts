@@ -4,6 +4,9 @@ const API_KEY = process.env.PERPLEXITY_API_KEY
 console.log('API Key:', API_KEY ? 'Set' : 'Not set');
 const API_URL = 'https://api.perplexity.ai/chat/completions'
 
+console.log('Environment variables:', process.env);
+console.log('PERPLEXITY_API_KEY:', process.env.PERPLEXITY_API_KEY);
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
