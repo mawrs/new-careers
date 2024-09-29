@@ -616,37 +616,41 @@ export function CareerSearchComponent() {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
-                  {surveyStep <= 3 ? (
-                    <>
-                      <h3 className="font-semibold text-lg text-black">{surveyQuestions[surveyStep].question}</h3>
-                      {surveyAnswers.length > 0 && (
-                        <div className="flex items-center text-sm text-gray-600 flex-wrap">
-                          <span>Previous answers:</span>
-                          {surveyAnswers.map((answer, index) => (
-                            <span key={index} className="flex items-center">
-                              <ChevronRight className="h-4 w-4 mx-1" />
-                              {answer}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <div className="space-y-2">
-                        {surveyQuestions[surveyStep].options.map((option, index) => (
-                          <Button
-                            key={index}
-                            onClick={() => handleSurveyAnswer(option)}
-                            className="w-full justify-start text-left text-black bg-white hover:bg-gray-100 border border-gray-300"
-                            variant="outline"
-                          >
-                            {option}
-                          </Button>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <Button onClick={() => setShowResults(true)} className="w-full">
-                      See Results
-                    </Button>
+                  <h3 className="font-semibold text-lg text-black">{surveyQuestions[surveyStep].question}</h3>
+                  {surveyAnswers.length > 0 && (
+                    <div className="flex items-center text-sm text-gray-600 flex-wrap">
+                      <span>Previous answers:</span>
+                      {surveyAnswers.map((answer, index) => (
+                        <span key={index} className="flex items-center">
+                          <ChevronRight className="h-4 w-4 mx-1" />
+                          {answer}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <div className="space-y-2">
+                    {surveyQuestions[surveyStep].options.map((option, index) => (
+                      <Button
+                        key={index}
+                        onClick={() => handleSurveyAnswer(option)}
+                        className="w-full justify-start text-left text-black bg-white hover:bg-gray-100 border border-gray-300"
+                        variant="outline"
+                      >
+                        {option}
+                      </Button>
+                    ))}
+                  </div>
+                  <Button 
+                    onClick={() => setShowResults(true)} 
+                    className="w-full mt-4"
+                    disabled={surveyStep < 3}
+                  >
+                    See Results
+                  </Button>
+                  {surveyStep < 3 && (
+                    <p className="text-sm text-gray-500 text-center">
+                      Answer all questions to see your results
+                    </p>
                   )}
                 </div>
               </DialogContent>
