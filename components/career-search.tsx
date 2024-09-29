@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Textarea } from "@/components/ui/textarea"
 import { GraduationCap, TrendingUp, Briefcase, DollarSign, Users, Star, ThumbsUp, ThumbsDown, X, CheckCircle, Loader2, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from "@/lib/utils"
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { Skeleton } from "@/components/ui/skeleton"
 
 
@@ -462,15 +462,30 @@ export function CareerSearchComponent() {
     setIsSubmitted(false);
   };
 
-  const handleGoogleLogin = (response: any) => {
-    // Extract user info from the Google response
-    const userInfo: User = {
-      name: response.name, // adjust these fields based on the actual Google response
-      avatar: response.picture,
-      // ... other fields
-    };
-    setIsLoggedIn(true);
-    setUser(userInfo);
+  const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
+    try {
+      // Send the credential to your backend
+      const response = await fetch('/api/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ credential: credentialResponse.credential }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
+      
+      // Update the application state
+      setIsLoggedIn(true);
+      setUser(data.user);
+    } catch (error) {
+      console.error('Login error:', error);
+      // Handle login error (e.g., show an error message to the user)
+    }
   };
 
   const handleLogout = () => {
@@ -524,26 +539,34 @@ export function CareerSearchComponent() {
             </button>
           </div>
           {isLoggedIn && user ? (
-          <div className="flex items-center gap-4">
-            <Avatar>
-              <AvatarImage src={user.avatar} alt={user.name} />
-              <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <Button variant="outline" className="text-black" onClick={handleLogout}>Logout</Button>
+            <div className="flex items-center gap-4">
+              <Avatar>
+                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <Button variant="outline" className="text-black" onClick={handleLogout}>Logout</Button>
             </div>
           ) : (
             <GoogleOAuthProvider clientId="681787884456-avl01o9cpe4rqqq9r476j7v4044ot846.apps.googleusercontent.com">
               <GoogleLogin
-                onSuccess={credentialResponse => {
-                  console.log(credentialResponse);
+                onSuccess={handleGoogleLogin}
+                onError={(error) => {
+                  console.error('Google Sign-In Error:', error);
+                  // Log additional details if available
+                  if (error instanceof Error) {
+                    console.error('Error message:', error.message);
+                    console.error('Error stack:', error.stack);
+                  }
                 }}
-                onError={() => {
-                  console.log('Login Failed');
-                }}
+                useOneTap
+                theme="outline"
+                size="large"
+                text="signin_with"
+                shape="rectangular"
               />
             </GoogleOAuthProvider>
           )}
-          </div>
+        </div>
       </nav>
 
       <header className="py-8 sm:py-12 relative">
@@ -952,14 +975,23 @@ export function CareerSearchComponent() {
                   <div className="text-center py-8">
                     <p className="text-lg mb-4 text-black">Please log in to view and manage your favorites.</p>
                     <div className="inline-block">
-                      <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+                      <GoogleOAuthProvider clientId="681787884456-avl01o9cpe4rqqq9r476j7v4044ot846.apps.googleusercontent.com
+">
                         <GoogleLogin
-                          onSuccess={credentialResponse => {
-                            console.log(credentialResponse);
+                          onSuccess={handleGoogleLogin}
+                          onError={(error) => {
+                            console.error('Google Sign-In Error:', error);
+                            // Log additional details if available
+                            if (error instanceof Error) {
+                              console.error('Error message:', error.message);
+                              console.error('Error stack:', error.stack);
+                            }
                           }}
-                          onError={() => {
-                            console.log('Login Failed');
-                          }}
+                          useOneTap
+                          theme="outline"
+                          size="large"
+                          text="signin_with"
+                          shape="rectangular"
                         />
                       </GoogleOAuthProvider>
                     </div>
@@ -994,6 +1026,10 @@ export function CareerSearchComponent() {
                 <span className="font-bold underline">Leave Feedback</span>
               </button>
             </div>
+          </div>
+          <div className="mt-4 text-center text-xs text-gray-500">
+            <a href="/terms" className="hover:text-gray-700 mr-4">Terms of Service</a>
+            <a href="/privacy" className="hover:text-gray-700">Privacy Policy</a>
           </div>
         </div>
       </footer>

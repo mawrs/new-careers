@@ -6,6 +6,7 @@ const nextConfig = {
   },
   env: {
     PERPLEXITY_API_KEY: process.env.PERPLEXITY_API_KEY,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   },
 }
 
