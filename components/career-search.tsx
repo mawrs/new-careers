@@ -550,13 +550,8 @@ export function CareerSearchComponent() {
             <GoogleOAuthProvider clientId="681787884456-avl01o9cpe4rqqq9r476j7v4044ot846.apps.googleusercontent.com">
               <GoogleLogin
                 onSuccess={handleGoogleLogin}
-                onError={(error) => {
-                  console.error('Google Sign-In Error:', error);
-                  // Log additional details if available
-                  if (error instanceof Error) {
-                    console.error('Error message:', error.message);
-                    console.error('Error stack:', error.stack);
-                  }
+                onError={() => {
+                  console.error('Google Sign-In Error occurred');
                 }}
                 useOneTap
                 theme="outline"
@@ -979,13 +974,8 @@ export function CareerSearchComponent() {
 ">
                         <GoogleLogin
                           onSuccess={handleGoogleLogin}
-                          onError={(error) => {
-                            console.error('Google Sign-In Error:', error);
-                            // Log additional details if available
-                            if (error instanceof Error) {
-                              console.error('Error message:', error.message);
-                              console.error('Error stack:', error.stack);
-                            }
+                          onError={() => {
+                            console.error('Google Sign-In Error occurred');
                           }}
                           useOneTap
                           theme="outline"
